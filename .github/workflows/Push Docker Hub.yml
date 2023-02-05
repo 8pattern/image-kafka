@@ -1,0 +1,19 @@
+name: Push Docker Hub
+on:
+  push:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build and Publish Image
+        uses: 8pattern/buildx-image-to-ghcr@dockerhub
+        with:
+          username: 8pattern
+          token: ${{ secrets.DOCKERHUB_TOKEN }}
+          image-name: kafka
+          # image-tag: ${{steps.version.outputs.data}}
+          dockerfile: Dockerfile
+          build-platform: linux/amd64,linux/386,linux/arm64,linux/arm/v7,linux/arm/v6
